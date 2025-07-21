@@ -66,6 +66,15 @@ type Config struct {
 
 	// Deprecated: use Federation instead. Will be removed next release
 	Federated bool `yaml:"federated,omitempty"`
+
+	// global-level converters
+	Converters []ConverterConfig `yaml:"converters,omitempty"`
+}
+
+type ConverterConfig struct {
+	From string `yaml:"from"`
+	To   string `yaml:"to"`
+	With string `yaml:"with"`
 }
 
 var cfgFilenames = []string{".gqlgen.yml", "gqlgen.yml", "gqlgen.yaml"}
@@ -498,6 +507,9 @@ type TypeMapEntry struct {
 	// Key is the Go name of the field.
 	ExtraFields      map[string]ModelExtraField `yaml:"extraFields,omitempty"`
 	EmbedExtraFields []ModelExtraField          `yaml:"embedExtraFields,omitempty"`
+
+	// struct-level converters
+	Converters []ConverterConfig `yaml:"converters,omitempty"`
 }
 
 type TypeMapField struct {
@@ -523,6 +535,8 @@ type TypeMapField struct {
 	FieldName       string `yaml:"fieldName"`
 	Omittable       *bool  `yaml:"omittable"`
 	GeneratedMethod string `yaml:"-"`
+	// field-level converter
+	Converter string `yaml:"converter,omitempty"`
 }
 
 type EnumValue struct {
